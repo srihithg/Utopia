@@ -16,6 +16,7 @@ const PostModal = (props) => {
             <span>Name</span>
           </UserInfo>
         </SharedContent>
+        <ShareCreation>Actions</ShareCreation>
       </Content>
     </Container>
   );
@@ -101,6 +102,12 @@ const UserInfo = styled.div`
     line-height: 1.5;
     margin-left: 5px;
   }
+`;
+
+const ShareCreation = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px 12px 16px;
 `;
 
 export default PostModal;
