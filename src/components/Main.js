@@ -90,7 +90,6 @@ const Main = (props) => {
           </SocialActions>
         </Article>
       </div>
-      <PostModal />
     </Container>
   );
 };
