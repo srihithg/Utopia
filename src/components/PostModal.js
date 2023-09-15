@@ -1,24 +1,64 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const PostModal = (props) => {
+  const [editorText, setEditorText] = useState("");
+
+  const reset = (e) => {
+    setEditorText("");
+    props.handleClick(e);
+  };
+
   return (
-    <Container>
-      <Content>
-        <Header>
-          <h2>Create a post</h2>
-          <button>
-            <img src="/images/close-icon.svg" />
-          </button>
-        </Header>
-        <SharedContent>
-          <UserInfo>
-            <img src="/images/user.svg" alt="" />
-            <span>Name</span>
-          </UserInfo>
-        </SharedContent>
-        <ShareCreation>Actions</ShareCreation>
-      </Content>
-    </Container>
+    <>
+      {props.showModal === "open" && (
+        <Container>
+          <Content>
+            <Header>
+              <h2>Create a post</h2>
+              <button onClick={(event) => reset(event)}>
+                <img src="/images/close-icon.svg" />
+              </button>
+            </Header>
+            <SharedContent>
+              <UserInfo>
+                <img src="/images/user.svg" alt="" />
+                <span>Name</span>
+              </UserInfo>
+
+              <Editor>
+                <textarea
+                  value={editorText}
+                  onChange={(e) => setEditorText(e.target.value)}
+                  placeholder="What do you want to talk about?"
+                  autoFocus={true}
+                ></textarea>
+              </Editor>
+            </SharedContent>
+            <ShareCreation>
+              <AttachAssets>
+                <AssetButton>
+                  <img src="/images/share-image-icon.svg" alt="" />
+                </AssetButton>
+                <AssetButton>
+                  <img src="/images/share-video-icon.svg" alt="" />
+                </AssetButton>
+              </AttachAssets>
+              <ShareComment>
+                <AssetButton>
+                  <img src="/images/share-comment-icon.svg" alt="" />
+                  Anyone
+                </AssetButton>
+              </ShareComment>
+
+              <PostButton disabled={!editorText ? true : false}>
+                Post
+              </PostButton>
+            </ShareCreation>
+          </Content>
+        </Container>
+      )}
+    </>
   );
 };
 
@@ -31,6 +71,7 @@ const Container = styled.div`
   z-index: 9999;
   color: black;
   background-color: rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.5s;
 `;
 
 const Content = styled.div`
@@ -71,6 +112,7 @@ const Header = styled.div`
     img {
       height: 25px;
       width: 25px;
+      pointer-events: none;
     }
   }
 `;
@@ -84,6 +126,7 @@ const SharedContent = styled.div`
   background: transparent;
   padding: 8px 12px;
 `;
+
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
@@ -108,6 +151,67 @@ const ShareCreation = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 12px 24px 12px 16px;
+`;
+
+const AssetButton = styled.button`
+  display: flex;
+  align-items: center;
+  height: 40px;
+  min-width: auto;
+  color: rgba(0, 0, 0, 0.5);
+  img {
+    height: 20px;
+    width: 30px;
+  }
+`;
+
+const AttachAssets = styled.div`
+  align-items: center;
+  display: flex;
+  padding-right: 8px;
+  ${AssetButton} {
+    width: 40px;
+  }
+`;
+
+const ShareComment = styled.div`
+  padding-left: 8px;
+  margin-right: auto;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+  ${AssetButton} {
+    svg {
+      margin-right: 5px;
+    }
+  }
+`;
+
+const PostButton = styled.button`
+  min-width: 60px;
+  border-radius: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: ${(props) => (props.disabled ? "rgba(0, 0, 0, 0.8)" : "#0a66c2")};
+  color: white;
+  &:hover {
+    background: #004182;
+  }
+`;
+
+const Editor = styled.div`
+  padding: 12px 24px;
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+  }
+
+  input {
+    width: 100%;
+    height: 35px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    resize: none;
+  }
 `;
 
 export default PostModal;
